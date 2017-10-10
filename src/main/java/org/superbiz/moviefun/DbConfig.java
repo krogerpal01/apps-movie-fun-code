@@ -1,6 +1,7 @@
 package org.superbiz.moviefun;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -75,10 +76,15 @@ public class DbConfig {
     }
 
     private static DataSource createDataSource(String url, String username, String password) {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL(url);
-        dataSource.setUser(username);
-        dataSource.setPassword(password);
-        return dataSource;
+        HikariConfig cfg = new HikariConfig();
+        cfg.setJdbcUrl(url);
+        cfg.setUsername(username);
+        cfg.setPassword(password);
+        return new HikariDataSource(cfg);
+//        MysqlDataSource dataSource = new MysqlDataSource();
+//        dataSource.setURL(url);
+//        dataSource.setUser(username);
+//        dataSource.setPassword(password);
+//        return dataSource;
     }
 }
